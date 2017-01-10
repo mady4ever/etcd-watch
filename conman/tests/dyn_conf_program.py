@@ -47,7 +47,7 @@ class Program(object):
                    "faultInfo":value
                    }
                }]
-           client = InfluxDBClient('35.166.173.147',8086,'root','root','dockerData')
+           client = InfluxDBClient('54.183.76.210',8086,'root','root','docker_metadata')
            client.write_points(data)
         self.conman.refresh(self.key)
 
