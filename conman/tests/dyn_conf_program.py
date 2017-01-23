@@ -40,14 +40,14 @@ class Program(object):
            data = [{
                "measurement":"faultData",
                "tags":{
-                   "host":"ip-35.166.173.147",
+                   "host":"ip-52.53.222.153",
                    "region":"us-west-1"
                    },
                "fields":{
                    "faultInfo":value
                    }
                }]
-           client = InfluxDBClient('54.183.76.210',8086,'root','root','docker_metadata')
+           client = InfluxDBClient('52.53.222.153',8086,'root','root','docker_metadata')
            client.write_points(data)
         self.conman.refresh(self.key)
 

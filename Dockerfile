@@ -4,6 +4,7 @@ RUN apt-get update
 RUN apt-get install -y git
 RUN apt-get install -y python-pip
 RUN pip install influxdb 
+
 RUN git clone https://github.com/mady4ever/etcd-watch.git
 RUN cd etcd-watch/python-etcd/;python setup.py install
 RUN cd etcd-watch/conman/;python setup.py install
