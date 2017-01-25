@@ -24,17 +24,36 @@ for event in events_iterator:
           if prev_key != None or prev_value != None:      
              if event.key == prev_key or event.value == prev_value:
                   continue
+       splitedMsg = event.key.split('/')
+	   
+       containerId = splitedMsg[2]
+       etcdSplitedMsg = splitedMsg[3].split('_')
+
+       appName = etcdSplitedMsg[0]
+       command = etcdSplitedMsg[1]
+       sourceIp = etcdSplitedMsg[2].split(':')[0]
+       sourcePort = etcdSplitedMsg[2].split(':')[1]
+       destIp = etcdSplitedMsg[3].split(':')[0]
+       destPort = etcdSplitedMsg[3].split(':')[1]
        client = InfluxDBClient(sys.argv[6],int(sys.argv[7]),'root','root','docker_metadata')
        data = [{
                "measurement":"faultData",
                "tags":{
                    "host":"ip-52.53.222.153",
-                   "region":"us-west-1"
+                   "region":"us-west-1",
+                   "appName" : appName,
+                   "containerId": containerId
                    },
                "fields":{
                    "key":event.key,
-                   "faultInfo":value,
-                   "value":event.value
+                   "value":event.value,
+                   "appName" : appName,
+                   "containerId": containerId,
+                   "command": command,
+                   "sourceIp": sourceIp,
+                   "sourcePort": sourcePort,
+                   "destIp": destIp,
+                   "destPort": destPort
                    }
                }]
        print(data)
