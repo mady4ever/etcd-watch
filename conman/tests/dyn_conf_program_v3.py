@@ -1,17 +1,17 @@
-import etcd3,sys
+import etcd3,sys,os
 from influxdb import InfluxDBClient
 
 
-etcd = etcd3.client(host=sys.argv[4], port=int(sys.argv[5]))
+etcd = etcd3.client((os.environ.get("EW_ETCD_IP") or "localhost"), (int(os.environ.get("EW_ETCD_PORT")) or 2379))
 
 # watch prefix
 #watch_count = 0
 #template/testing/game
-filename = open(sys.argv[2], 'w+')
+filename = open((os.environ.get("EW_LOG_FILE") or "watch.log"), 'w+')
 prev_key = None
 prev_value = None
 neglact_duplicate = False
-events_iterator, cancel = etcd.watch_prefix(sys.argv[1])
+events_iterator, cancel = etcd.watch_prefix((os.environ.get("EW_KEY_PREFIX_WATCH") or "except"))
 for event in events_iterator:
     #print(type(event))
     value = None    
@@ -35,11 +35,12 @@ for event in events_iterator:
        sourcePort = etcdSplitedMsg[2].split(':')[1]
        destIp = etcdSplitedMsg[3].split(':')[0]
        destPort = etcdSplitedMsg[3].split(':')[1]
-       client = InfluxDBClient(sys.argv[6],int(sys.argv[7]),'root','root','docker_metadata')
+       host_ip = os.environ.get("EW_HOST_IP") or "localhost"
+       client = InfluxDBClient((os.environ.get("EW_INFLUX_IP") or "localhost"),int((os.environ.get("EW_INFLUX_PORT") or 8083)),'root','root','docker_metadata')
        data = [{
                "measurement":"faultData",
                "tags":{
-                   "host":"ip-52.53.222.153",
+                   "host":host_ip,
                    "region":"us-west-1",
                    "appName" : appName,
                    "containerId": containerId
