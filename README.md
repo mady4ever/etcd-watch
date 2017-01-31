@@ -16,4 +16,4 @@ etcdctl set /mesage "a:1,b:2,c:3,d:4"
 docker run -it . mahipatel/etcd-watcher
 
 # etcd v3 supported
-nohup python etcd-watch/conman/tests/dyn_conf_program_v3.py "excep" watch_monitor.log http etcd-ip etcd-port influxdb-ip influxdb-port &
+nohup python etcd-watch/conman/tests/dyn_conf_program_v3.py prefix-of-key-to-watch log-file-name http etcd-ip etcd-port influxdb-ip influxdb-port &
