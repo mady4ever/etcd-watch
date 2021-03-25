@@ -1,4 +1,4 @@
-PyYAML==3.11
+PyYAML==5.4
 python-etcd==0.4.3
 urllib3==1.7.14
 pyOpenSSL==0.15.1
